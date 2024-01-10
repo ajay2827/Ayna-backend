@@ -11,7 +11,7 @@ const bookSchema = new moongoose.Schema(
       required: true,
     },
     author: {
-      type: mongoose.Schema.Types.ObjectId,
+      type: moongoose.Schema.Types.ObjectId,
       ref: 'Author',
       required: true,
     },

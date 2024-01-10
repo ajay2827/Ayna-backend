@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
-const { Author, Book } = require('./models');
+const Author = require('../models/Author');
+const Book = require('../models/Book');
 const bcrypt = require('bcrypt');
 
 const authorsData = [
@@ -50,7 +51,7 @@ const seedData = async () => {
       })
     );
 
-    await Author.create(authorsWithHashedPasswords);
+    const createdAuthors = await Author.create(authorsWithHashedPasswords);
 
     const booksWithAuthors = booksData.map((book, index) => ({
       ...book,

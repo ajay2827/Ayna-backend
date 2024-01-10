@@ -21,6 +21,14 @@ app.get('/', (req, res) => {
   res.send(`Welcome to my Express APi!`);
 });
 
+// requiring routers
+const authorRoute = require('./routes/authorRoute');
+const bookRoute = require('./routes/bookRoute');
+
+// using routers
+app.use('/api/v1/author', authorRoute);
+app.use('/api/v1/book', bookRoute);
+
 // middleware
 app.use(express.json({ limit: '20mb' }));
 app.use(notFoundMiddleware);
