@@ -11,9 +11,9 @@ const authenticationMiddleware = require('../middleware/auth');
 router.route('/').get(getBooks, authenticationMiddleware);
 
 // like a book
-router.route('/like/:id:').put(likeBook, authenticationMiddleware);
+router.route('/like/:id').put(likeBook, authenticationMiddleware);
 
 // unlike a book
-router.route('/unlike/:id:').put(unlikeBook, authenticationMiddleware);
+router.route('/unlike/:id').put(unlikeBook, authenticationMiddleware);
 
 module.exports = router;

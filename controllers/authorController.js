@@ -1,29 +1,25 @@
 const Author = require('../models/Author');
+const Book = require('../models/Book');
 const asyncWrapper = require('../middleware/async');
 const { createCustomError } = require('../errors/custom-error');
 const generatetoken = require('../config/generateToken');
+const bcrypt = require('bcrypt');
 
 // login author
 exports.authorLogin = asyncWrapper(async (req, res, next) => {
-  const { email, password } = req.body;
-  if (!email || !password) {
+  const { email } = req.body;
+  if (!email) {
     return next(createCustomError(`Provide necessary credentials`, 400));
   }
 
   // check user
   const author = await Author.findOne({ email });
-  if (!user) {
+  if (!author) {
     return next(createCustomError(`Invalid Email`, 401));
   }
 
-  // compare password
-  const matchpassword = await bcrypt.compare(password, author.password);
-  if (!matchpassword) {
-    return next(createCustomError(`Invalid Password`, 401));
-  }
-
   const token = generatetoken(author._id);
-  res.status(200).json({ user, token });
+  res.status(200).json({ author, token });
 });
 
 // get authors
@@ -70,7 +66,12 @@ exports.getAuthor = asyncWrapper(async (req, res, next) => {
 
 // get logged-in user info
 exports.getLoggedInInfo = asyncWrapper(async (req, res, next) => {
-  const authorId = req.user._id;
+  if (!req.user) {
+    return next(createCustomError(`Not authorized to access this route`, 401));
+  }
+  console.log(req.user);
+  const authorId = req.user.id;
+  console.log(authorId);
   const author = await Author.findById(authorId);
   if (!author) {
     return next(createCustomError(`Author not found`, 404));
@@ -78,7 +79,7 @@ exports.getLoggedInInfo = asyncWrapper(async (req, res, next) => {
   const books = await Book.find({ author: authorId });
   res.status(200).json({
     author: {
-      _id: author._id,
+      _id: author.id,
       name: author.name,
       email: author.email,
       phone_no: author.phone_no,
