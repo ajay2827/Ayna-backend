@@ -69,7 +69,6 @@ exports.getLoggedInInfo = asyncWrapper(async (req, res, next) => {
   if (!req.user) {
     return next(createCustomError(`Not authorized to access this route`, 401));
   }
-  console.log(req.user);
   const authorId = req.user.id;
   console.log(authorId);
   const author = await Author.findById(authorId);

@@ -8,12 +8,12 @@ const {
 const authenticationMiddleware = require('../middleware/auth');
 
 // get book
-router.route('/').get(getBooks, authenticationMiddleware);
+router.route('/').get(authenticationMiddleware, getBooks);
 
 // like a book
-router.route('/like/:id').put(likeBook, authenticationMiddleware);
+router.route('/like/:id').put(authenticationMiddleware, likeBook);
 
 // unlike a book
-router.route('/unlike/:id').put(unlikeBook, authenticationMiddleware);
+router.route('/unlike/:id').put(authenticationMiddleware, unlikeBook);
 
 module.exports = router;

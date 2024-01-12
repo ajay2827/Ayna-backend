@@ -12,12 +12,12 @@ const authenticationMiddleware = require('../middleware/auth');
 router.route('/login').post(authorLogin);
 
 // get Loggedin author details
-router.route('/me').get(getLoggedInInfo, authenticationMiddleware);
+router.route('/me').get(authenticationMiddleware, getLoggedInInfo);
 
 // get all authors details
-router.route('/').get(getAuthors, authenticationMiddleware);
+router.route('/').get(authenticationMiddleware, getAuthors);
 
 // get author details
-router.route('/:id').get(getAuthor, authenticationMiddleware);
+router.route('/:id').get(authenticationMiddleware, getAuthor);
 
 module.exports = router;
